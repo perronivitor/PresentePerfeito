@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.hacka.presenteperfeito"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.hacka.presenteperfeito"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -59,6 +59,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.androidx.lifecycle.viewModel.compose)
+    implementation(libs.viewModel.compose.utilities)
+    implementation(libs.viewModel)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
