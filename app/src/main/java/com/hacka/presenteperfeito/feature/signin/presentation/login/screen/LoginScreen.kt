@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel.LoginViewModel
-import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,8 +56,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             }
         }
     }
-
-
 }
 
 @Composable
