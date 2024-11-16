@@ -27,54 +27,54 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
-import com.hacka.presenteperfeito.core.designSystem.components.buttons.SecondaryButton
+import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButton
+import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButtonTypes
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
-    PerfectGiftTheme {
-        val uiState = viewModel.currentUiState.collectAsState()
-        uiState.value.event?.let { HandleEvents(event = it, onFinish = viewModel::clearEvents) }
-        Scaffold(topBar = {
-            TopAppBar(navigationIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "")
-                }
-            }, title = { Text(text = "Top App Bar") })
-        }) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .background(color = MaterialTheme.colorScheme.primary)
-                    .fillMaxSize()
-            ) {
-                TextField(label = { Text(text = "Email") },
-                    value = uiState.value.email ?: "",
-                    onValueChange = { text ->
-                        viewModel.setEmail(text)
-                    })
-                TextField(label = { Text(text = "Password") },
-                    value = uiState.value.password ?: "",
-                    onValueChange = { text ->
-                        viewModel.setPassword(text)
-                    })
-
-                var isLoading by remember {
-                    mutableStateOf(false)
-                }
-
-                SecondaryButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Entrar",
-                    isLoading = isLoading,
-                    onButtonClick = {
-                        viewModel.doLogin()
-                        isLoading = !isLoading
-                    }
-                )
+    val uiState = viewModel.currentUiState.collectAsState()
+    uiState.value.event?.let { HandleEvents(event = it, onFinish = viewModel::clearEvents) }
+    Scaffold(topBar = {
+        TopAppBar(navigationIcon = {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "")
             }
+        }, title = { Text(text = "Top App Bar") })
+    }) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .background(color = MaterialTheme.colorScheme.primary)
+                .fillMaxSize()
+        ) {
+            TextField(label = { Text(text = "Email") },
+                value = uiState.value.email ?: "",
+                onValueChange = { text ->
+                    viewModel.setEmail(text)
+                })
+            TextField(label = { Text(text = "Password") },
+                value = uiState.value.password ?: "",
+                onValueChange = { text ->
+                    viewModel.setPassword(text)
+                })
+
+            var isLoading by remember {
+                mutableStateOf(false)
+            }
+
+            ProjectButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Entrar",
+                isLoading = isLoading,
+                buttonType = ProjectButtonTypes.Secondary,
+                onButtonClick = {
+                    viewModel.doLogin()
+                    isLoading = !isLoading
+                }
+            )
         }
     }
 }
