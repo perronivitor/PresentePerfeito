@@ -2,7 +2,7 @@ package com.hacka.presenteperfeito.core.designSystem
 
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF904A45)
+val primaryLight = Color(0xFFFF4747)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFFFDAD6)
 val onPrimaryContainerLight = Color(0xFF3B0908)
