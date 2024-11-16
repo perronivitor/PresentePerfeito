@@ -1,7 +1,9 @@
 package com.hacka.presenteperfeito.feature.signin.presentation.login.screen
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -9,6 +11,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -24,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
-import com.hacka.presenteperfeito.core.designSystem.components.buttons.PrimaryButton
+import com.hacka.presenteperfeito.core.designSystem.components.buttons.SecondaryButton
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel.LoginViewModel
 
@@ -44,7 +47,8 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
-                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.primary)
+                    .fillMaxSize()
             ) {
                 TextField(label = { Text(text = "Email") },
                     value = uiState.value.email ?: "",
@@ -61,7 +65,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                     mutableStateOf(false)
                 }
 
-                PrimaryButton(
+                SecondaryButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Entrar",
                     isLoading = isLoading,
