@@ -1,7 +1,14 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
+
+val localPropertiesFile = rootProject.file("local.properties")
+val localProperties = Properties()
+localProperties.load(FileInputStream(localPropertiesFile))
 
 android {
     namespace = "com.hacka.presenteperfeito"
@@ -10,6 +17,7 @@ android {
     defaultConfig {
         applicationId = "com.hacka.presenteperfeito"
         minSdk = 26
+        //noinspection EditedTargetSdkVersion
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -21,7 +29,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "API_TOKEN", "\"${localProperties["API_TOKEN"]}\"")
+            buildConfigField("String", "BASE_URL", "\"${localProperties["BASE_URL"]}\"")
+        }
         release {
+            buildConfigField("String", "API_TOKEN", "\"${localProperties["API_TOKEN"]}\"")
+            buildConfigField("String", "BASE_URL", "\"${localProperties["BASE_URL"]}\"")
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -47,9 +62,24 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
+
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
