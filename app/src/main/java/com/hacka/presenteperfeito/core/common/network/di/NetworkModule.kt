@@ -1,6 +1,7 @@
-package com.hacka.presenteperfeito.core.common.newtwork
+package com.hacka.presenteperfeito.core.common.network.di
 
 import com.hacka.presenteperfeito.BuildConfig
+import com.hacka.presenteperfeito.core.common.network.ChatApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -8,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-const val TIMEOUT = 60L
+private const val TIMEOUT = 60L
 
 val networkModule = module {
 
@@ -16,10 +17,12 @@ val networkModule = module {
         val builder = OkHttpClient.Builder()
 
 
-        val loggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+        if (BuildConfig.DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+            builder.addInterceptor(loggingInterceptor)
         }
-        builder.addInterceptor(loggingInterceptor)
 
 
         builder
