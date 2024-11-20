@@ -67,6 +67,13 @@ android {
 }
 
 dependencies {
+
+    implementation(libs.lottie.compose)
+
+    implementation(libs.androidx.material)
+
+    implementation(libs.androidx.navigation.compose)
+
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
