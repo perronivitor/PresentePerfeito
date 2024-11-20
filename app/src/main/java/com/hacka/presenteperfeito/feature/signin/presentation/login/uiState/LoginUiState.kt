@@ -4,7 +4,7 @@ import com.hacka.presenteperfeito.core.common.UiState
 
 data class LoginUiState(
     val email: String? = null, val password: String? = null, val event: LoginEvents? = null
-): UiState
+) : UiState
 
 sealed interface LoginEvents {
     data class LoginError(val message: String) : LoginEvents
