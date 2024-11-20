@@ -17,10 +17,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.hacka.presenteperfeito.core.common.extensions.getFirstName
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.darkOrange
 import com.hacka.presenteperfeito.feature.home.screen.util.RoundedImageWithInitialsHeaderHome
-import com.hacka.presenteperfeito.feature.home.screen.util.getFirstName
 
 @Composable
 fun HeaderHome(userName: String) {

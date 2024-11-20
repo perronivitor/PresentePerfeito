@@ -48,3 +48,14 @@ fun PreviewUserHistoryList() {
         UserHistoryList(sampleItems)
     }
 }
+
+@Preview(showBackground = true, device = "id:pixel_5")
+@Composable
+fun PreviewUserHistoryListEmpty() {
+
+    val sampleItems = listOf<HistoryModel>()
+
+    PerfectGiftTheme {
+        UserHistoryList(sampleItems)
+    }
+}

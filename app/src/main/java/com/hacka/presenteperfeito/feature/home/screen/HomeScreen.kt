@@ -20,17 +20,12 @@ import com.hacka.presenteperfeito.feature.home.screen.components.HeaderHome
 import com.hacka.presenteperfeito.feature.home.screen.components.ProgressStatus
 
 @Composable
-fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
-
-    val userName = "Lucas Simão"
-
-    val sampleItems = listOf(
-        HistoryModel("Lucas Simão", ProgressStatus.Finalized),
-        HistoryModel("Maria Pereira", ProgressStatus.Waiting),
-        HistoryModel("João Campos", ProgressStatus.Canceled)
-    )
-
-//    val sampleItems = listOf<HistoryModel>()
+fun HomeScreen(
+    navController: NavController,
+    userHistoryList: List<HistoryModel>,
+    userName: String,
+    modifier: Modifier = Modifier,
+) {
 
     Scaffold(
         topBar = {
@@ -44,16 +39,35 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                 .background(darkOrange),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            ContentHome(sampleItems)
+            ContentHome(userHistoryList)
         }
     }
 }
 
 @Preview(showBackground = true, device = "id:pixel_5")
 @Composable
-fun DefaultPreviewHomeScreen() {
+fun PreviewHomeScreen() {
     PerfectGiftTheme {
         val navController = rememberNavController()
-        HomeScreen(navController)
+        val sampleItems = listOf(
+            HistoryModel("Lucas Simão", ProgressStatus.Finalized),
+            HistoryModel("Maria Pereira", ProgressStatus.Waiting),
+            HistoryModel("João Campos", ProgressStatus.Canceled)
+        )
+        val userName = "Lucas Simão"
+
+        HomeScreen(navController, sampleItems, userName)
+    }
+}
+
+@Preview(showBackground = true, device = "id:pixel_5")
+@Composable
+fun PreviewHomeScreenEmpty() {
+    PerfectGiftTheme {
+        val navController = rememberNavController()
+        val sampleItems = listOf<HistoryModel>()
+        val userName = "Lucas Simão"
+
+        HomeScreen(navController, sampleItems, userName)
     }
 }

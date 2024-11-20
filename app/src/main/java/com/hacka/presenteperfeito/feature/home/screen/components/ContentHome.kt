@@ -63,11 +63,20 @@ fun ContentHome(sampleItems: List<HistoryModel>) {
 @Composable
 fun DefaultPreviewContentHome() {
 
-//    val sampleItems = listOf(
-//        HistoryModel("Lucas Simão", ProgressStatus.Finalized),
-//        HistoryModel("Maria Pereira", ProgressStatus.Waiting),
-//        HistoryModel("João Campos", ProgressStatus.Canceled)
-//    )
+    val sampleItems = listOf(
+        HistoryModel("Lucas Simão", ProgressStatus.Finalized),
+        HistoryModel("Maria Pereira", ProgressStatus.Waiting),
+        HistoryModel("João Campos", ProgressStatus.Canceled)
+    )
+
+    PerfectGiftTheme {
+        ContentHome(sampleItems)
+    }
+}
+
+@Preview(showBackground = true, device = "id:pixel_5")
+@Composable
+fun DefaultPreviewContentHomeEmpty() {
 
     val sampleItems = listOf<HistoryModel>()
 

@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.home.screen.util
+package com.hacka.presenteperfeito.core.common.extensions
 
 fun getFirstName(fullName: String): String {
     return fullName.split(" ").firstOrNull() ?: ""
