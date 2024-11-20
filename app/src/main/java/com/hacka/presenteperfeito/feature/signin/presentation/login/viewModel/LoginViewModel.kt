@@ -2,18 +2,16 @@ package com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.hacka.presenteperfeito.core.common.BaseViewModel
+import com.hacka.presenteperfeito.feature.signin.data.useCase.LoginUseCase
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginUiState
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 
-//ONCREATE
-
-//PAUSE
-//RESUME
-
-//ONDESTROY
-class LoginViewModel : BaseViewModel<LoginUiState>(LoginUiState()) {
+@KoinViewModel
+class LoginViewModel(private val loginUseCase: LoginUseCase) :
+    BaseViewModel<LoginUiState>(LoginUiState()) {
 
     fun setEmail(email: String) {
         viewModelScope.launch {
@@ -32,11 +30,19 @@ class LoginViewModel : BaseViewModel<LoginUiState>(LoginUiState()) {
     }
 
     fun doLogin() {
-        //Servidor
-        viewModelScope.launch(Dispatchers.IO) {
-            setState {
-                it.copy(event = LoginEvents.LoginError("E-mail ou senha incorreta"))
-            }
+        viewModelScope.launch {
+            loginUseCase.login(currentUiState.email ?: "", currentUiState.password ?: "")
+                .catch { err ->
+                    setState {
+                        it.copy(
+                            event = LoginEvents.LoginError(
+                                message = err.message ?: ""
+                            )
+                        )
+                    }
+                }.collect {
+                    setState { it.copy(event = LoginEvents.LoginSuccessfully) }
+                }
         }
     }
 
