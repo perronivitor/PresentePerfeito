@@ -36,7 +36,9 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
         topBar = {
             HeaderHome(userName)
         },
+
         bottomBar = { BottomNavigationBar(navController) }
+
     ) { innerPadding ->
         Column(
             modifier = modifier
