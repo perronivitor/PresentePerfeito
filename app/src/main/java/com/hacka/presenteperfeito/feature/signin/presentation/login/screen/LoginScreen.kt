@@ -25,17 +25,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButton
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButtonTypes
+import com.hacka.presenteperfeito.core.di.AppModule
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel.LoginViewModel
+import org.koin.compose.KoinApplication
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.ksp.generated.module
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
-    val uiState = viewModel.currentUiState.collectAsState()
+fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
+    val uiState = viewModel.uiState.collectAsState()
     uiState.value.event?.let { HandleEvents(event = it, onFinish = viewModel::clearEvents) }
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
@@ -65,16 +68,13 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 mutableStateOf(false)
             }
 
-            ProjectButton(
-                modifier = Modifier.fillMaxWidth(),
+            ProjectButton(modifier = Modifier.fillMaxWidth(),
                 text = "Entrar",
                 isLoading = isLoading,
                 buttonType = ProjectButtonTypes.Secondary,
                 onButtonClick = {
                     viewModel.doLogin()
-                    isLoading = !isLoading
-                }
-            )
+                })
         }
     }
 }
@@ -95,6 +95,10 @@ fun HandleEvents(event: LoginEvents, onFinish: () -> Unit) {
 @Composable
 private fun LoginScreenPreview() {
     PerfectGiftTheme {
-        LoginScreen()
+        KoinApplication(application = {
+            modules(AppModule().module)
+        }) {
+            LoginScreen()
+        }
     }
 }

@@ -4,11 +4,12 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
-val localPropertiesFile = rootProject.file("local.properties")
-val localProperties = Properties()
-localProperties.load(FileInputStream(localPropertiesFile))
+ksp {
+    arg("KOIN_CONFIG_CHECK","true")
+}
 
 android {
     namespace = "com.hacka.presenteperfeito"
@@ -29,10 +30,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"${localProperties["BASE_URL"]}\"")
+            buildConfigField("String", "BASE_URL", project.properties["API_BASE_URL"].toString())
         }
         release {
-            buildConfigField("String", "BASE_URL", "\"${localProperties["BASE_URL"]}\"")
+            buildConfigField("String", "BASE_URL", project.properties["API_BASE_URL"].toString())
 
             isMinifyEnabled = false
             proguardFiles(
@@ -78,6 +79,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.annotation)
+    ksp(libs.koin.ksp)
 
     implementation(libs.retrofit)
     implementation(libs.okhttp)
@@ -96,14 +99,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.text.google.fonts)
-    implementation(libs.androidx.lifecycle.viewModel.compose)
-    implementation(libs.viewModel.compose.utilities)
-    implementation(libs.viewModel)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
