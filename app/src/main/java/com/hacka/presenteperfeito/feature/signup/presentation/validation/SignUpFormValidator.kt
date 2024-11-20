@@ -1,10 +1,13 @@
-package com.hacka.presenteperfeito.feature.signup.presentation
+package com.hacka.presenteperfeito.feature.signup.presentation.validation
 
 import com.hacka.presenteperfeito.R
 import com.hacka.presenteperfeito.core.common.validator.EmailValidator
 import com.hacka.presenteperfeito.core.common.validator.FormValidator
 import com.hacka.presenteperfeito.core.common.validator.PasswordValidator
+import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormState
+import org.koin.core.annotation.Factory
 
+@Factory
 class SignUpFormValidator : FormValidator<SignUpFormState> {
 
     override fun validate(formState: SignUpFormState): SignUpFormState {

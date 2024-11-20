@@ -1,7 +1,8 @@
-package com.hacka.presenteperfeito.feature.signup.presentation
+package com.hacka.presenteperfeito.feature.signup.presentation.uiState
 
 import android.net.Uri
 import androidx.annotation.IntegerRes
+import com.hacka.presenteperfeito.core.common.UiState
 
 data class SignUpFormState(
     val profilePictureUri: Uri? = null,
@@ -25,4 +26,5 @@ data class SignUpFormState(
     val isProfilePictureModalBottomSheetOpen: Boolean = false,
     val hasError: Boolean = false,
     val isLoading: Boolean = false,
-)
+    val event: SignUpFormEvent? = null
+) : UiState
