@@ -1,89 +1,142 @@
 package com.hacka.presenteperfeito.feature.signup.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
+import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.hacka.presenteperfeito.R
+import com.hacka.presenteperfeito.core.common.BaseViewModel
 import com.hacka.presenteperfeito.core.common.validator.FormValidator
+import com.hacka.presenteperfeito.feature.signup.data.usecase.SignUpUseCase
+import com.hacka.presenteperfeito.feature.signup.presentation.model.CreateUser
+import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormState
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel
 class SignUpViewModel(
     private val formValidator: FormValidator<SignUpFormState>,
-) : ViewModel() {
+    private val signUpUseCase: SignUpUseCase,
+) : BaseViewModel<SignUpFormState>(SignUpFormState()) {
 
-    var formState by mutableStateOf(SignUpFormState())
-        private set
-
-    fun onFormEvent(event: SignUpFormEvent) {
-        when (event) {
-            is SignUpFormEvent.ProfilePhotoUriChanged -> {
-                formState = formState.copy(profilePictureUri = event.uri)
+    fun setProfilePictureUri(uri: Uri) {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(profilePictureUri = uri)
             }
+        }
+    }
 
-            is SignUpFormEvent.FirstNameChanged -> {
-                formState = formState.copy(firstName = event.firstName, firstNameError = null)
+    fun setFirstName(firstName: String) {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(firstName = firstName, firstNameError = null)
             }
+        }
+    }
 
-            is SignUpFormEvent.LastNameChanged -> {
-                formState = formState.copy(lastName = event.lastName, lastNameError = null)
+    fun setLastName(lastName: String) {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(lastName = lastName, lastNameError = null)
             }
+        }
+    }
 
-            is SignUpFormEvent.EmailChanged -> {
-                formState = formState.copy(email = event.email, emailError = null)
+    fun setEmail(email: String) {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(email = email)
             }
+        }
+    }
 
-            is SignUpFormEvent.PasswordChanged -> {
-                formState = formState.copy(password = event.password, passwordError = null)
+    fun setPassword(password: String) {
+        viewModelScope.launch {
+            setState { formState ->
                 updatePasswordExtraText()
+                formState.copy(password = password)
             }
+        }
+    }
 
-            is SignUpFormEvent.PasswordConfirmationChanged -> {
-                formState = formState.copy(passwordConfirmation = event.passwordConfirmation)
+    fun setPasswordConfirmation(passwordConfirmation: String) {
+        viewModelScope.launch {
+            setState { formState ->
                 updatePasswordExtraText()
+                formState.copy(passwordConfirmation = passwordConfirmation)
             }
-
-            SignUpFormEvent.OpenProfilePictureModalBottomSheet -> {
-                formState = formState.copy(isProfilePictureModalBottomSheetOpen = true)
-            }
-
-            SignUpFormEvent.CloseProfilePictureModalBottomSheet -> {
-                formState = formState.copy(isProfilePictureModalBottomSheetOpen = false)
-            }
-
-            is SignUpFormEvent.Submit -> {
-                doSignUp()
-            }
-
         }
     }
 
     private fun updatePasswordExtraText() {
-        val isPasswordMatch =
-            formState.password.isNotBlank() && formState.password == formState.passwordConfirmation
+        viewModelScope.launch {
+            setState { formState ->
+                val isPasswordMatch =
+                    formState.password.isNotBlank() && formState.password == formState.passwordConfirmation
 
-        formState = formState.copy(
-            passwordExtraTextId = if (isPasswordMatch) {
-                R.string.feature_sign_up_passwords_match
-            } else {
-                null
+                formState.copy(
+                    passwordExtraTextId = if (isPasswordMatch) {
+                        R.string.feature_sign_up_passwords_match
+                    } else {
+                        null
+                    }
+                )
             }
-        )
+        }
     }
 
-    private fun doSignUp() {
-        if (isValidForm()) {
-            formState = formState.copy(isLoading = true)
-            viewModelScope.launch {
-                //TODO: chamar endpoint de cadastro
+    fun setOpenProfilePictureModalBottomSheet() {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(isProfilePictureModalBottomSheetOpen = true)
+            }
+        }
+    }
+
+    fun setCloseProfilePictureModalBottomSheet() {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(isProfilePictureModalBottomSheetOpen = false)
             }
         }
     }
 
     private fun isValidForm(): Boolean {
-        return !formValidator.validate(formState).also {
-            formState = it
+        return !formValidator.validate(uiState.value).also { newFormState ->
+            setState {
+                it.copy(
+                    firstNameError = newFormState.firstNameError,
+                    lastNameError = newFormState.lastNameError,
+                    emailError = newFormState.emailError,
+                    passwordError = newFormState.passwordError,
+                    passwordConfirmationError = newFormState.passwordConfirmationError,
+                )
+            }
         }.hasError
+    }
+
+    fun doSubmit() {
+        if (isValidForm()) {
+            viewModelScope.launch {
+                val user = CreateUser(
+                    email = currentUiState.email,
+                    name = currentUiState.firstName,
+                    lastName = currentUiState.lastName,
+                    password = currentUiState.password
+                )
+                signUpUseCase.submit(user).catch { err ->
+                    err
+                }.collect {
+                    it
+                }
+
+            }
+        }
+    }
+
+    fun clearEvents() {
+        setState {
+            it.copy(event = null)
+        }
     }
 }
