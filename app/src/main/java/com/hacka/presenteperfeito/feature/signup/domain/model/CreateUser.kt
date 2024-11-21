@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.signup.presentation.model
+package com.hacka.presenteperfeito.feature.signup.domain.model
 
 import com.hacka.presenteperfeito.feature.signup.data.model.SignUpRequest
 
@@ -8,7 +8,7 @@ data class CreateUser(
     val name: String,
     val lastName: String,
 ) {
-    fun toSignUpReqDTO() = SignUpRequest(
+    fun toSignUpRequest() = SignUpRequest(
         email = email,
         password = password,
         firstName = name,
