@@ -5,6 +5,7 @@ import com.hacka.presenteperfeito.core.common.dispatcher.GiftPerfectDispatchers
 import com.hacka.presenteperfeito.feature.signup.data.model.SignUpReqDTO
 import com.hacka.presenteperfeito.feature.signup.data.model.SignUpResDTO
 import com.hacka.presenteperfeito.feature.signup.data.service.SignUpService
+import com.hacka.presenteperfeito.feature.signup.domain.repository.SignUpRepository
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single

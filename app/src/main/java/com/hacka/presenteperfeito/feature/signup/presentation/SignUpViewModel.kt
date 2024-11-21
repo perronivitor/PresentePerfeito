@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.hacka.presenteperfeito.R
 import com.hacka.presenteperfeito.core.common.BaseViewModel
 import com.hacka.presenteperfeito.core.common.validator.FormValidator
-import com.hacka.presenteperfeito.feature.signup.data.usecase.SignUpUseCase
+import com.hacka.presenteperfeito.feature.signup.domain.usecase.SignUpUseCase
 import com.hacka.presenteperfeito.feature.signup.presentation.model.CreateUser
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormState
 import kotlinx.coroutines.flow.catch
