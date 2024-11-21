@@ -31,6 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hacka.presenteperfeito.R
+import com.hacka.presenteperfeito.core.common.extensions.KoinPreview
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButton
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButtonTypes
@@ -38,10 +39,13 @@ import com.hacka.presenteperfeito.core.designSystem.components.profile.ProfilePi
 import com.hacka.presenteperfeito.core.designSystem.components.profile.ProfilePictureSelector
 import com.hacka.presenteperfeito.core.designSystem.components.textAnnotated.AnnotatedString
 import com.hacka.presenteperfeito.core.designSystem.components.textFields.SecondaryTextField
+import com.hacka.presenteperfeito.core.di.AppModule
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormEvent
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormEvent.Submit
 import kotlinx.coroutines.launch
+import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.ksp.generated.module
 
 
 @Composable
@@ -240,7 +244,7 @@ fun HandleEvents(
 @Preview
 @Composable
 private fun SignUpScreenPreview() {
-    PerfectGiftTheme {
+    KoinPreview {
         SignUpScreen()
     }
 }
