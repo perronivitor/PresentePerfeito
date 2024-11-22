@@ -12,7 +12,13 @@ fun NavigationHost(navController: NavController) {
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = BottomNavItem.Home.route) {
-        composable(BottomNavItem.Home.route) { HomeScreen(navController) }
+        composable(BottomNavItem.Home.route) {
+            HomeScreen(
+                navController = navController,
+                userName = "",
+                userHistoryList = emptyList()
+            )
+        }
         composable(BottomNavItem.Adds.route) { /* Search Screen UI */ }
         composable(BottomNavItem.Profile.route) { /* Profile Screen UI */ }
     }
