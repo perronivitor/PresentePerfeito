@@ -47,14 +47,11 @@ import org.koin.ksp.generated.module
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-
 fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavController) {
     val uiState: LoginUiState by viewModel.uiState.collectAsState()
     uiState.event?.let {
         HandlerEvent(
-            events = it,
-            navController = navController,
-            onClearEvent = viewModel::clearEvents
+            events = it, navController = navController, onClearEvent = viewModel::clearEvents
         )
     }
     Scaffold(
@@ -90,23 +87,22 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavC
                         imageVector = Icons.Outlined.Email,
                         contentDescription = ""
                     )
-                }, errorMessage = uiState.emailInvalidError?.let { stringResource(id = it) },
+                },
+                    errorMessage = uiState.emailInvalidError?.let { stringResource(id = it) },
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.email ?: "",
                     onValueChange = { text ->
                         viewModel.setEmail(text)
 
                     })
-
-
-
                 PrimaryTextField(leftIcon = {
                     Icon(
                         tint = MaterialTheme.colorScheme.primary,
                         imageVector = Icons.Outlined.Lock,
                         contentDescription = ""
                     )
-                }, errorMessage = uiState.passwordInvalidError?.let { stringResource(id = it) },
+                },
+                    errorMessage = uiState.passwordInvalidError?.let { stringResource(id = it) },
                     isPassword = true,
                     modifier = Modifier.fillMaxWidth(),
                     value = uiState.password ?: "",
@@ -114,23 +110,15 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavC
                         viewModel.setPassword(text)
                     })
             }
-
-
-            ProjectButton(
-                modifier = Modifier.fillMaxWidth(),
+            ProjectButton(modifier = Modifier.fillMaxWidth(),
                 text = "ENTRAR",
                 buttonType = ProjectButtonTypes.Secondary,
                 onButtonClick = {
                     viewModel.doLogin()
-                }
-            )
-
-
-
+                })
             Text(text = "Não possui conta? Cadastre-se aqui")
 
         }
-
     }
 
 }
@@ -162,7 +150,4 @@ private fun Preview() {
             LoginScreen(navController = rememberNavController())
         }
     }
-
-
 }
-

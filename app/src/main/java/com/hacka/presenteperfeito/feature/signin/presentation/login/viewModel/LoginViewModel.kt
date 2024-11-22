@@ -45,6 +45,7 @@ class LoginViewModel(
         validForm()
         if (currentUiState.emailInvalidError != null && currentUiState.passwordInvalidError != null) return
         viewModelScope.launch {
+            setLoadingState(Loading.Processing)
             loginUseCase.login(currentUiState.email ?: "", currentUiState.password ?: "")
                 .catch { err ->
                     setState {
@@ -57,6 +58,7 @@ class LoginViewModel(
                 }.collect {
                     setState { it.copy(event = LoginEvents.LoginSuccessfully) }
                 }
+            setLoadingState(Loading.Complete)
         }
     }
 
