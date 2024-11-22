@@ -25,9 +25,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.hacka.presenteperfeito.core.common.Loading
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButton
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButtonTypes
+import com.hacka.presenteperfeito.core.designSystem.components.loading.FullScreenLoading
 import com.hacka.presenteperfeito.core.di.AppModule
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel.LoginViewModel
@@ -39,7 +41,9 @@ import org.koin.ksp.generated.module
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
     val uiState = viewModel.uiState.collectAsState()
+    val loadingState by viewModel.loadingState.collectAsState()
     uiState.value.event?.let { HandleEvents(event = it, onFinish = viewModel::clearEvents) }
+
     Scaffold(topBar = {
         TopAppBar(navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
@@ -47,6 +51,8 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
             }
         }, title = { Text(text = "Top App Bar") })
     }) { paddingValues ->
+        if (loadingState == Loading.FirstLoading) FullScreenLoading {
+        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -70,7 +76,7 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
 
             ProjectButton(modifier = Modifier.fillMaxWidth(),
                 text = "Entrar",
-                isLoading = isLoading,
+                isLoading = loadingState == Loading.Processing,
                 buttonType = ProjectButtonTypes.Secondary,
                 onButtonClick = {
                     viewModel.doLogin()
