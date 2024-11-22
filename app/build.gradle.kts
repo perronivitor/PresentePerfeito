@@ -90,6 +90,8 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.moshi.kotlin)
 
+    implementation(libs.splashscreen)
+
     implementation(libs.coil.compose)
 
     implementation(libs.androidx.core.ktx)
