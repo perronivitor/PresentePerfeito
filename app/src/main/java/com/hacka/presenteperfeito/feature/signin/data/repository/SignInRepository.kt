@@ -4,5 +4,5 @@ import com.hacka.presenteperfeito.feature.signin.data.model.LoginReqDTO
 import com.hacka.presenteperfeito.feature.signin.data.model.LoginResDTO
 
 interface SignInRepository {
-    suspend fun login(loginReqDTO: LoginReqDTO): LoginResDTO
+    suspend fun login(loginReqDTO: LoginReqDTO)
 }
