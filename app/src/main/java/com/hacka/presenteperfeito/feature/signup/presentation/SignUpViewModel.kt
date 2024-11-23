@@ -8,13 +8,15 @@ import com.hacka.presenteperfeito.core.common.validator.FormValidator
 import com.hacka.presenteperfeito.feature.signup.domain.usecase.SignUpUseCase
 import com.hacka.presenteperfeito.feature.signup.domain.model.CreateUser
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormState
+import com.hacka.presenteperfeito.feature.signup.presentation.validation.SignUpFormValidator.Companion.SIGN_UP_FORM
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Named
 
 @KoinViewModel
 class SignUpViewModel(
-    private val formValidator: FormValidator<SignUpFormState>,
+    @Named(SIGN_UP_FORM) private val formValidator: FormValidator<SignUpFormState>,
     private val signUpUseCase: SignUpUseCase,
 ) : BaseViewModel<SignUpFormState>(SignUpFormState()) {
 

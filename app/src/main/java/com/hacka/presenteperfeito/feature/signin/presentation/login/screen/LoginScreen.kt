@@ -2,6 +2,7 @@ package com.hacka.presenteperfeito.feature.signin.presentation.login.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -60,54 +62,58 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavC
         contentWindowInsets = WindowInsets(left = 16.dp, right = 16.dp)
     ) { paddingValues ->
         Column(
+            verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(84.dp))
-
-            Image(
-
-                modifier = Modifier.size(132.dp, 135.dp),
-                painter = painterResource(id = R.drawable.logo_gift_ic),
-                contentDescription = ""
-            )
-            Text(style = MaterialTheme.typography.headlineMedium, text = "Presente Perfeito")
-
-            Spacer(modifier = Modifier.height(87.dp))
 
 
-            PrimaryTextField(leftIcon = {
-                Icon(
-                    tint = MaterialTheme.colorScheme.primary,
-                    imageVector = Icons.Outlined.Email,
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+
+                    modifier = Modifier.size(132.dp, 135.dp),
+                    painter = painterResource(id = R.drawable.logo_gift_ic),
                     contentDescription = ""
                 )
-            },
-                modifier = Modifier.fillMaxWidth(),
-                value = uiState.email ?: "",
-                onValueChange = { text ->
-                    viewModel.setEmail(text)
+                Text(style = MaterialTheme.typography.headlineMedium, text = "Presente Perfeito")
+            }
 
-                })
 
-            Spacer(modifier = Modifier.height(14.dp))
 
-            PrimaryTextField(leftIcon = {
-                Icon(
-                    tint = MaterialTheme.colorScheme.primary,
-                    imageVector = Icons.Outlined.Lock,
-                    contentDescription = ""
-                )
-            },
-                isPassword = true,
-                modifier = Modifier.fillMaxWidth(),
-                value = uiState.password ?: "",
-                onValueChange = { text ->
-                    viewModel.setPassword(text)
-                })
-            Spacer(modifier = Modifier.height(97.dp))
+
+            Column {
+                PrimaryTextField(leftIcon = {
+                    Icon(
+                        tint = MaterialTheme.colorScheme.primary,
+                        imageVector = Icons.Outlined.Email,
+                        contentDescription = ""
+                    )
+                }, errorMessage = uiState.emailInvalidError?.let { stringResource(id = it) },
+                    modifier = Modifier.fillMaxWidth(),
+                    value = uiState.email ?: "",
+                    onValueChange = { text ->
+                        viewModel.setEmail(text)
+
+                    })
+
+
+
+                PrimaryTextField(leftIcon = {
+                    Icon(
+                        tint = MaterialTheme.colorScheme.primary,
+                        imageVector = Icons.Outlined.Lock,
+                        contentDescription = ""
+                    )
+                }, errorMessage = uiState.passwordInvalidError?.let { stringResource(id = it) },
+                    isPassword = true,
+                    modifier = Modifier.fillMaxWidth(),
+                    value = uiState.password ?: "",
+                    onValueChange = { text ->
+                        viewModel.setPassword(text)
+                    })
+            }
 
 
             ProjectButton(
@@ -119,7 +125,7 @@ fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavC
                 }
             )
 
-            Spacer(modifier = Modifier.height(57.dp))
+
 
             Text(text = "Não possui conta? Cadastre-se aqui")
 
