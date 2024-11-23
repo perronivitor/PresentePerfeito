@@ -8,6 +8,10 @@ import okhttp3.Response
 import okhttp3.Route
 import java.io.IOException
 
+/**
+ * @throws[AuthenticationException] - Error occurred during authentication
+ * @throws[ExpiredTokenException] - Token has expired. Send user back to login
+ */
 class SessionAuthenticator(private val authRepository: AuthRepository) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         val request = response.request
