@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.home.screen.components
+package com.hacka.presenteperfeito.feature.home.presentation.screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
@@ -12,17 +12,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hacka.presenteperfeito.feature.home.model.HistoryModel
+import com.hacka.presenteperfeito.feature.home.presentation.uiState.InvestigationItem
 
 @Composable
-fun ShowUserProgress(item: HistoryModel) {
+fun ShowUserProgress(item: InvestigationItem) {
     Text(
-        text = item.progress.label,
+        text = item.state.label,
         color = Color.White,
         modifier = Modifier
             .width(100.dp)
             .background(
-                color = item.progress.color,
+                color = item.state.color,
                 shape = RoundedCornerShape(25.dp)
             )
             .padding(horizontal = 8.dp, vertical = 4.dp),

@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.home.screen.components
+package com.hacka.presenteperfeito.feature.home.presentation.screen.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicText
@@ -8,12 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.hacka.presenteperfeito.feature.home.model.HistoryModel
 
 @Composable
-fun ShowUserName(item: HistoryModel) {
+fun ShowUserName(name: String) {
     BasicText(
-        text = item.firstName,
+        text = name,
         style = MaterialTheme.typography.bodyLarge.copy(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold

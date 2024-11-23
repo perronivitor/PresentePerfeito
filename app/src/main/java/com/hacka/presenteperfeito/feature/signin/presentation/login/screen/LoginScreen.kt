@@ -2,6 +2,7 @@ package com.hacka.presenteperfeito.feature.signin.presentation.login.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -30,28 +31,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.hacka.presenteperfeito.R
 import com.hacka.presenteperfeito.core.common.Loading
-import com.hacka.presenteperfeito.core.common.bottomNavigation.BottomNavItem
+import com.hacka.presenteperfeito.core.common.extensions.KoinPreview
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButton
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButtonTypes
 import com.hacka.presenteperfeito.core.designSystem.components.textFields.PrimaryTextField
-import com.hacka.presenteperfeito.core.di.AppModule
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginUiState
 import com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel.LoginViewModel
 import kotlinx.coroutines.launch
-import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.ksp.generated.module
 
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
-    navController: NavController,
     navigateToSignUp: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
@@ -63,7 +58,7 @@ fun LoginScreen(
     val loadingState: Loading by viewModel.loadingState.collectAsState()
     uiState.event?.let {
         HandlerEvent(events = it,
-            navController = navController,
+            navigateToHome = navigateToHome,
             onClearEvent = viewModel::clearEvents,
             showSnackBar = { title ->
                 scope.launch {
@@ -129,8 +124,9 @@ fun LoginScreen(
                 onButtonClick = {
                     viewModel.doLogin()
                 })
-            Text(text = "Não possui conta? Cadastre-se aqui")
-            //TODO ONCLICK SIGNUP
+            Text(modifier = Modifier.clickable {
+                navigateToSignUp()
+            }, text = "Não possui conta? Cadastre-se aqui")
         }
     }
 }
@@ -138,9 +134,9 @@ fun LoginScreen(
 @Composable
 fun HandlerEvent(
     events: LoginEvents,
-    navController: NavController,
+    navigateToHome: () -> Unit,
     showSnackBar: (message: String) -> Unit,
-    onClearEvent: () -> Unit,
+    onClearEvent: () -> Unit
 ) {
     val context = LocalContext.current
     when (events) {
@@ -149,9 +145,7 @@ fun HandlerEvent(
 
         }
 
-        is LoginEvents.LoginSuccessfully -> {
-            navController.navigate(BottomNavItem.Home.route)
-        }
+        is LoginEvents.LoginSuccessfully -> navigateToHome()
 
         is LoginEvents.InvalidCredential -> {
             showSnackBar(stringResource(id = R.string.login_invalid_credential_message))
@@ -161,17 +155,11 @@ fun HandlerEvent(
 }
 
 @Composable
-@Preview(showBackground = true)
-private fun Preview() {
-    KoinApplication(application = {
-        modules(AppModule().module)
-    }) {
-        PerfectGiftTheme {
-            LoginScreen(
-                navController = rememberNavController(),
-                navigateToSignUp = {},
-                navigateToHome = {}
-            )
+@Preview
+private fun LoginScreenPreview() {
+    PerfectGiftTheme {
+        KoinPreview {
+            LoginScreen(navigateToSignUp = {}, navigateToHome = {})
         }
     }
 }

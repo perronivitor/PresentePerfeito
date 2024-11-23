@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
 
 private const val DEFAULT_PREFERENCES = "DEFAULT_PREFERENCES"
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DEFAULT_PREFERENCES)
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = DEFAULT_PREFERENCES)
 
 @Single
 class LocalPreferencesRepositoryImpl(private val context: Context): LocalPreferencesRepository {

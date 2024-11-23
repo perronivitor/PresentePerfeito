@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.home.screen.util
+package com.hacka.presenteperfeito.feature.home.presentation.screen.util
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

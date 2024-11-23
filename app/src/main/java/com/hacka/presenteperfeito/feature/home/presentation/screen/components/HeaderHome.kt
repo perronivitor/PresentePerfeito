@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.home.screen.components
+package com.hacka.presenteperfeito.feature.home.presentation.screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.hacka.presenteperfeito.core.common.extensions.getFirstName
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.darkOrange
-import com.hacka.presenteperfeito.feature.home.screen.util.RoundedImageWithInitialsHeaderHome
+import com.hacka.presenteperfeito.feature.home.presentation.screen.util.RoundedImageWithInitialsHeaderHome
 
 @Composable
 fun HeaderHome(userName: String) {
