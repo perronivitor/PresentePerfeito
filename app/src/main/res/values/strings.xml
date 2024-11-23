@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Presente Perfeito</string>
 
+    //LOGIN
+    <string name="login_invalid_credential_message">E-mail ou senha incorretos.</string>
+
     <string name="common_generic_error_title">Alguma coisa deu errado</string>
     <string name="common_generic_error_message">Tente novamente ou reporte um problema</string>
     <string name="common_ok">OK</string>

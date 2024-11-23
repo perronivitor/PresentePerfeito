@@ -2,6 +2,7 @@ package com.hacka.presenteperfeito.feature.signin.presentation.login.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.hacka.presenteperfeito.core.common.BaseViewModel
+import com.hacka.presenteperfeito.core.common.Loading
 import com.hacka.presenteperfeito.core.common.validator.FormValidator
 import com.hacka.presenteperfeito.feature.signin.data.useCase.LoginUseCase
 import com.hacka.presenteperfeito.feature.signin.presentation.login.uiState.LoginEvents
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Named
+import retrofit2.HttpException
 
 @KoinViewModel
 class LoginViewModel(
@@ -43,12 +45,15 @@ class LoginViewModel(
 
     fun doLogin() {
         validForm()
-        if (currentUiState.emailInvalidError != null && currentUiState.passwordInvalidError != null) return
+        if (currentUiState.emailInvalidError != null || currentUiState.passwordInvalidError != null) return
         viewModelScope.launch {
             setLoadingState(Loading.Processing)
             loginUseCase.login(currentUiState.email ?: "", currentUiState.password ?: "")
                 .catch { err ->
                     setState {
+                        if (err is HttpException && err.code() == 404) {
+                            return@setState it.copy(event = LoginEvents.InvalidCredential)
+                        }
                         it.copy(
                             event = LoginEvents.LoginError(
                                 message = err.message ?: ""
