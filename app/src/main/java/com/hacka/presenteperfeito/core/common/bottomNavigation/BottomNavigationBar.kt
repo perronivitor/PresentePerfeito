@@ -13,9 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.hacka.presenteperfeito.core.common.navigation.Route
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
-import kotlinx.serialization.ExperimentalSerializationApi
 
-@OptIn(ExperimentalSerializationApi::class)
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = remember {
@@ -31,7 +29,7 @@ fun BottomNavigationBar(navController: NavController) {
         .value?.destination?.route
     val homeRoute = Route.HomeRoute.serializer().descriptor.serialName
 
-    if (currentRoute == homeRoute) {
+    if(currentRoute == homeRoute) {
         BottomNavigation(
             backgroundColor = Color.White,
             contentColor = Color.Black

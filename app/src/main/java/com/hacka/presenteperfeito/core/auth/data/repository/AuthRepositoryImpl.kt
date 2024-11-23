@@ -9,12 +9,13 @@ import com.hacka.presenteperfeito.core.common.localData.dataStore.repository.Loc
 import com.hacka.presenteperfeito.core.common.localData.dataStore.repository.REFRESH_TOKEN
 import com.hacka.presenteperfeito.core.common.localData.dataStore.repository.TOKEN
 import com.hacka.presenteperfeito.core.network.interceptor.ExpiredTokenException
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 import retrofit2.HttpException
-import java.io.IOException
 import java.net.HttpURLConnection
 
 @Single
@@ -35,13 +36,21 @@ class AuthRepositoryImpl(
                     setData(REFRESH_TOKEN, response.refreshToken)
                 }
                 response
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 if (e is HttpException && e.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     throw ExpiredTokenException()
-            }
+                }
                 throw e
             }
         }
+
+    override suspend fun isAuthenticated(): Boolean = coroutineScope {
+        !async {
+            preferencesRepository.getStringData(TOKEN).firstOrNull()
+        }.await().isNullOrBlank() && !async {
+            preferencesRepository.getStringData(REFRESH_TOKEN).firstOrNull()
+        }.await().isNullOrBlank()
+    }
 
     override suspend fun logout() = preferencesRepository.clearData()
 }

@@ -238,13 +238,13 @@ fun HandleEvents(
 ) {
     when (event) {
         is Submit -> onNavigateToHome.invoke()
-        is SignUpFormEvent.SubmitError -> {
-            Toast.makeText(
-                LocalContext.current,
-                "Erro no cadastro: ${event.message}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+//        is SignUpFormEvent.SubmitError -> {
+//            Toast.makeText(
+//                LocalContext.current,
+//                "Erro no cadastro: ${event.message}",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
     }
     onFinish()
 }
