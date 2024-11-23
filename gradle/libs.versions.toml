@@ -24,6 +24,7 @@ interceptor = "4.12.0"
 ksp = "1.9.0-1.0.13"
 koin-annotation = "1.4.0"
 splashScreen = "1.0.0"
+dataStore = "1.1.1"
 
 [libraries]
 #ANDROID
@@ -64,6 +65,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "interceptor" }
 #SPLASHSCREEN
 splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }
+#DATASTORE
+datastore = { group ="androidx.datastore", name = "datastore-preferences", version.ref = "dataStore"}
 #TEST
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
