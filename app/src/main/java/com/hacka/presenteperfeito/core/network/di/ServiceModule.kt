@@ -22,4 +22,4 @@ fun authService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): AuthService =
 
 @Single
 fun inspectionService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): InspectionService =
-    retrofit().create(InspectionService::class.java)
+    retrofit.create(InspectionService::class.java)

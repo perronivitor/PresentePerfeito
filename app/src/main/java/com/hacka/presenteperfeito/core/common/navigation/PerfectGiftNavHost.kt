@@ -45,6 +45,7 @@ fun PerfectGiftNavHost(navController: NavHostController) {
 
         composable<Route.SignInRoute> {
             LoginScreen(
+                navController = navController,
                 navigateToSignUp = {
                     navController.navigate(Route.SignUpRoute)
                 },

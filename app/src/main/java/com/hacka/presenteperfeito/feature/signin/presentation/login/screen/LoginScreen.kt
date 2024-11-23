@@ -49,7 +49,12 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.ksp.generated.module
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavController) {
+fun LoginScreen(
+    viewModel: LoginViewModel = koinViewModel(),
+    navController: NavController,
+    navigateToSignUp: () -> Unit,
+    navigateToHome: () -> Unit,
+) {
     val snackBarHostState = remember {
         SnackbarHostState()
     }
@@ -135,7 +140,7 @@ fun HandlerEvent(
     events: LoginEvents,
     navController: NavController,
     showSnackBar: (message: String) -> Unit,
-    onClearEvent: () -> Unit
+    onClearEvent: () -> Unit,
 ) {
     val context = LocalContext.current
     when (events) {
@@ -162,7 +167,11 @@ private fun Preview() {
         modules(AppModule().module)
     }) {
         PerfectGiftTheme {
-            LoginScreen(navController = rememberNavController())
+            LoginScreen(
+                navController = rememberNavController(),
+                navigateToSignUp = {},
+                navigateToHome = {}
+            )
         }
     }
 }
