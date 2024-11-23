@@ -10,5 +10,12 @@ abstract class BaseViewModel<State : UiState>(initialState: State) : ViewModel()
     protected val currentUiState
         get() = _currentUiState.value
     val uiState = _currentUiState.asStateFlow()
+
+    private val _loadingState = MutableStateFlow(Loading.Complete)
+    val loadingState = _loadingState.asStateFlow()
+    val currentLoadingState
+        get() = _loadingState.value
+
     fun setState(state: (State) -> State) = _currentUiState.update(state)
+    fun setLoadingState(state:Loading) = _loadingState.update { state }
 }

@@ -13,5 +13,6 @@ data class LoginUiState(
 
 sealed interface LoginEvents {
     data class LoginError(val message: String) : LoginEvents
+    data object InvalidCredential : LoginEvents
     data object LoginSuccessfully : LoginEvents
 }
