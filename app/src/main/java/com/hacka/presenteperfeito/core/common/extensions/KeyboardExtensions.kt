@@ -5,12 +5,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 
 fun KeyboardType.getVisualTransformationForPassword(visibility: Boolean): VisualTransformation {
-    return if (this == KeyboardType.Password) {
-        if (visibility) {
-            VisualTransformation.None
-        } else {
-            PasswordVisualTransformation()
-        }
+    return if (this == KeyboardType.Password && !visibility) {
+        PasswordVisualTransformation()
     } else {
         VisualTransformation.None
     }
