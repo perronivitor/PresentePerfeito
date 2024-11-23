@@ -1,6 +1,7 @@
 package com.hacka.presenteperfeito.core.network.di
 
 import com.hacka.presenteperfeito.core.auth.data.service.AuthService
+import com.hacka.presenteperfeito.feature.inspection.data.service.InspectionService
 import com.hacka.presenteperfeito.feature.signin.data.service.SignInService
 import com.hacka.presenteperfeito.feature.signup.data.service.SignUpService
 import org.koin.core.annotation.Named
@@ -18,3 +19,7 @@ fun signUpService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): SignUpService 
 @Single
 fun authService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): AuthService =
     retrofit.create(AuthService::class.java)
+
+@Single
+fun inspectionService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): InspectionService =
+    retrofit.create(InspectionService::class.java)

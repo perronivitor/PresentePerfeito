@@ -2,14 +2,15 @@
 agp = "8.5.2"
 coilCompose = "2.5.0"
 converterMoshi = "2.9.0"
-kotlin = "1.9.0"
+kotlin = "2.0.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinxSerializationJson = "1.7.3"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.04.01"
+composeBom = "2024.11.00"
 lottieCompose = "4.0.0"
 material = "1.7.5"
 moshi = "1.15.0"
@@ -21,7 +22,7 @@ koinBom = "4.0.0"
 okhttp = "4.12.0"
 retrofit = "2.11.0"
 interceptor = "4.12.0"
-ksp = "1.9.0-1.0.13"
+ksp = "2.0.21-1.0.26"
 koin-annotation = "1.4.0"
 splashScreen = "1.0.0"
 dataStore = "1.1.1"
@@ -44,6 +45,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 #VIEWMODEL
 androidx-lifecycle-viewModel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleVersion" } #//TODO REMOVE AFTER IMPLEMENT KOIN
 #LOTTIE
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 #NAVIGATION
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -80,4 +82,5 @@ koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koinB
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

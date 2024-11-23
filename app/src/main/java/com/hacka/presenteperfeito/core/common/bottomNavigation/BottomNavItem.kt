@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
@@ -20,28 +20,34 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.hacka.presenteperfeito.core.common.navigation.Route
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
+import kotlinx.serialization.Serializable
 
-sealed class BottomNavItem(
-    val route: String,
+@Serializable
+sealed class BottomNavItem<T>(
+    val route: T,
     val icon: @Composable () -> Unit,
-    val label: String? = null
+    val label: String? = null,
 ) {
 
-    data object Home : BottomNavItem(
-        route = Routes.HOME,
+    @Serializable
+    data object Home : BottomNavItem<Route.HomeRoute>(
+        route = Route.HomeRoute,
         icon = { Icon(Icons.Default.Home, contentDescription = "Início") },
         label = "Início"
     )
 
-    data object Adds : BottomNavItem(
-        route = Routes.ADDS,
+    @Serializable
+    data object Adds : BottomNavItem<Route.InspectionScreen>(
+        route = Route.InspectionScreen,
         icon = { CustomIconAdds() },
         label = ""
     )
 
-    data object Profile : BottomNavItem(
-        route = Routes.PROFILE,
+    @Serializable
+    data object Profile : BottomNavItem<Route.ProfileScreen>(
+        route = Route.ProfileScreen,
         icon = { Icon(Icons.Default.Person, contentDescription = "Perfil") },
         label = "Perfil"
     )
@@ -54,7 +60,7 @@ fun CustomIconAdds(
     boxSize: Dp = 48.dp,
     color: Color = MaterialTheme.colorScheme.primary,
     icon: ImageVector = Icons.Default.Add,
-    contentDescription: String = "Adicionar Investigação"
+    contentDescription: String = "Adicionar Investigação",
 ) {
     Box(
         modifier = modifier

@@ -12,16 +12,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.hacka.presenteperfeito.core.common.bottomNavigation.BottomNavigationBar
+import com.hacka.presenteperfeito.core.common.navigation.PerfectGiftNavHost
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
-import com.hacka.presenteperfeito.feature.signin.presentation.login.screen.LoginScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             PerfectGiftTheme {
-                Scaffold { innerPadding ->
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(navController)
+                    }
+                ) { innerPadding ->
                     Box(
                         modifier = Modifier
                             .consumeWindowInsets(innerPadding)
@@ -29,7 +35,7 @@ class MainActivity : ComponentActivity() {
                             .imePadding()
                             .fillMaxSize()
                     ) {
-                        LoginScreen(navController = rememberNavController())
+                        PerfectGiftNavHost(navController)
                     }
                 }
             }
