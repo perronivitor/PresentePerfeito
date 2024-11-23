@@ -1,6 +1,7 @@
 package com.hacka.presenteperfeito.feature.signup.presentation
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -32,29 +34,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hacka.presenteperfeito.R
 import com.hacka.presenteperfeito.core.common.extensions.KoinPreview
-import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButton
 import com.hacka.presenteperfeito.core.designSystem.components.buttons.ProjectButtonTypes
 import com.hacka.presenteperfeito.core.designSystem.components.profile.ProfilePictureOptionModalBottomSheet
 import com.hacka.presenteperfeito.core.designSystem.components.profile.ProfilePictureSelector
 import com.hacka.presenteperfeito.core.designSystem.components.textAnnotated.AnnotatedString
 import com.hacka.presenteperfeito.core.designSystem.components.textFields.SecondaryTextField
-import com.hacka.presenteperfeito.core.di.AppModule
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormEvent
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormEvent.Submit
 import kotlinx.coroutines.launch
-import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.ksp.generated.module
-
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = koinViewModel()) {
+fun SignUpScreen(
+    viewModel: SignUpViewModel = koinViewModel(),
+    navigateToHome: () -> Unit,
+    navigateToSignIn: () -> Unit,
+) {
     val uiState = viewModel.uiState.collectAsState()
     uiState.value.event?.let {
         HandleEvents(
             event = it,
-            onFinish = viewModel::clearEvents
+            onFinish = viewModel::clearEvents,
+            onNavigateToHome = navigateToHome
         )
     }
 
@@ -192,9 +194,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = koinViewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.surface),
-                onUnderlineClick = {
-                    //TODO: Navegar para tela de login
-                }
+                onUnderlineClick = { navigateToSignIn.invoke() }
             )
         }
     }
@@ -234,9 +234,17 @@ fun HandleProfilePictureOptionModalBottomSheet(
 fun HandleEvents(
     event: SignUpFormEvent,
     onFinish: () -> Unit,
+    onNavigateToHome: () -> Unit,
 ) {
     when (event) {
-        is Submit -> {}
+        is Submit -> onNavigateToHome.invoke()
+        is SignUpFormEvent.SubmitError -> {
+            Toast.makeText(
+                LocalContext.current,
+                "Erro no cadastro: ${event.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
     onFinish()
 }
@@ -245,6 +253,10 @@ fun HandleEvents(
 @Composable
 private fun SignUpScreenPreview() {
     KoinPreview {
-        SignUpScreen()
+        SignUpScreen(navigateToHome = {
+
+        }, navigateToSignIn = {
+
+        })
     }
 }

@@ -3,15 +3,12 @@ package com.hacka.presenteperfeito.feature.home.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.hacka.presenteperfeito.core.common.bottomNavigation.BottomNavigationBar
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.darkOrange
 import com.hacka.presenteperfeito.feature.home.model.HistoryModel
@@ -25,23 +22,18 @@ fun HomeScreen(
     userHistoryList: List<HistoryModel>,
     userName: String,
     modifier: Modifier = Modifier,
+    navigateToProfile: () -> Unit,
+    navigateToInspection: () -> Unit,
 ) {
+    Column(
+        modifier = modifier.background(darkOrange),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        HeaderHome(userName)
 
-    Scaffold(
-        topBar = {
-            HeaderHome(userName)
-        },
-        bottomBar = { BottomNavigationBar(navController) }
-    ) { innerPadding ->
-        Column(
-            modifier = modifier
-                .padding(innerPadding)
-                .background(darkOrange),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            ContentHome(userHistoryList)
-        }
+        ContentHome(userHistoryList)
     }
+
 }
 
 @Preview(showBackground = true, device = "id:pixel_5")
@@ -56,7 +48,11 @@ fun PreviewHomeScreen() {
         )
         val userName = "Lucas Simão"
 
-        HomeScreen(navController, sampleItems, userName)
+        HomeScreen(navController, sampleItems, userName, navigateToProfile = {
+
+        }, navigateToInspection = {
+
+        })
     }
 }
 
@@ -68,6 +64,10 @@ fun PreviewHomeScreenEmpty() {
         val sampleItems = listOf<HistoryModel>()
         val userName = "Lucas Simão"
 
-        HomeScreen(navController, sampleItems, userName)
+        HomeScreen(navController, sampleItems, userName, navigateToProfile = {
+
+        }, navigateToInspection = {
+
+        })
     }
 }

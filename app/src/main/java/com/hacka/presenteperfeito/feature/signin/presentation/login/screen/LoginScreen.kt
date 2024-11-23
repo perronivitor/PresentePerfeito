@@ -37,7 +37,11 @@ import org.koin.ksp.generated.module
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = koinViewModel()) {
+fun LoginScreen(
+    viewModel: LoginViewModel = koinViewModel(),
+    navigateToSignUp: () -> Unit,
+    navigateToHome: () -> Unit,
+) {
     val uiState = viewModel.uiState.collectAsState()
     uiState.value.event?.let { HandleEvents(event = it, onFinish = viewModel::clearEvents) }
     Scaffold(topBar = {
@@ -98,7 +102,10 @@ private fun LoginScreenPreview() {
         KoinApplication(application = {
             modules(AppModule().module)
         }) {
-            LoginScreen()
+            LoginScreen(
+                navigateToSignUp = {},
+                navigateToHome = {}
+            )
         }
     }
 }
