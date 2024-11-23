@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.hacka.presenteperfeito.R
 import com.hacka.presenteperfeito.core.common.BaseViewModel
 import com.hacka.presenteperfeito.core.common.validator.FormValidator
-import com.hacka.presenteperfeito.feature.signup.domain.usecase.SignUpUseCase
 import com.hacka.presenteperfeito.feature.signup.domain.model.CreateUser
+import com.hacka.presenteperfeito.feature.signup.domain.usecase.SignUpUseCase
+import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormEvent
 import com.hacka.presenteperfeito.feature.signup.presentation.uiState.SignUpFormState
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -125,11 +126,27 @@ class SignUpViewModel(
                     password = currentUiState.password
                 )
                 signUpUseCase.submit(user).catch { err ->
-                    err
+                    onError(message = err.message.orEmpty())
                 }.collect {
-                    it
+                    openHome()
                 }
 
+            }
+        }
+    }
+
+    private fun onError(message: String) {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(event = SignUpFormEvent.SubmitError(message))
+            }
+        }
+    }
+
+    private fun openHome() {
+        viewModelScope.launch {
+            setState { formState ->
+                formState.copy(event = SignUpFormEvent.Submit)
             }
         }
     }

@@ -29,6 +29,9 @@ sealed interface Route {
 
     @Serializable
     object InspectionScreen
+
+    @Serializable
+    object ProfileScreen
 }
 
 @Composable
@@ -36,7 +39,7 @@ fun PerfectGiftNavHost(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = Route.SignInRoute
+        startDestination = Route.BottomNavigationRoute
     ) {
         //TODO: Spash Screen
 
