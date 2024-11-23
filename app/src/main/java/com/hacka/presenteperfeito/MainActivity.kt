@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.hacka.presenteperfeito.core.auth.data.useCase.AuthUseCase
 import com.hacka.presenteperfeito.core.common.bottomNavigation.BottomNavigationBar
@@ -26,8 +25,6 @@ import com.hacka.presenteperfeito.core.common.localData.dataStore.repository.dat
 import com.hacka.presenteperfeito.core.common.navigation.PerfectGiftNavHost
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.core.designSystem.components.loading.FullScreenLoading
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -45,7 +42,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val scope = rememberCoroutineScope()
             var isAuthenticated by remember {
-              mutableStateOf<Boolean?>(null)
+                mutableStateOf<Boolean?>(null)
             }
             scope.launch {
                 authUseCase.isAuthenticated().collect { auth ->
@@ -53,11 +50,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
             PerfectGiftTheme {
-                Scaffold(
-                    bottomBar = {
-                        BottomNavigationBar(navController)
-                    }
-                ) { innerPadding ->
+                Scaffold(bottomBar = {
+                    BottomNavigationBar(navController)
+                }) { innerPadding ->
                     Box(
                         modifier = Modifier
                             .consumeWindowInsets(innerPadding)
@@ -65,9 +60,11 @@ class MainActivity : ComponentActivity() {
                             .imePadding()
                             .fillMaxSize()
                     ) {
-                        if(isAuthenticated == null) {
+                        if (isAuthenticated == null) {
                             FullScreenLoading()
-                        } else PerfectGiftNavHost(navController, needLogin = isAuthenticated == false)
+                        } else PerfectGiftNavHost(
+                            navController, needLogin = isAuthenticated == false
+                        )
                     }
                 }
             }

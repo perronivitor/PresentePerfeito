@@ -1,6 +1,8 @@
 package com.hacka.presenteperfeito.core.network.di
 
 import com.hacka.presenteperfeito.core.auth.data.service.AuthService
+import com.hacka.presenteperfeito.core.common.bottomNavigation.BottomNavItem
+import com.hacka.presenteperfeito.feature.home.data.service.HomeService
 import com.hacka.presenteperfeito.feature.inspection.data.service.InspectionService
 import com.hacka.presenteperfeito.feature.signin.data.service.SignInService
 import com.hacka.presenteperfeito.feature.signup.data.service.SignUpService
@@ -21,5 +23,8 @@ fun authService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): AuthService =
     retrofit.create(AuthService::class.java)
 
 @Single
-fun inspectionService(@Named(ANONYMOUS_RETROFIT) retrofit: Retrofit): InspectionService =
+fun inspectionService(retrofit: Retrofit): InspectionService =
     retrofit.create(InspectionService::class.java)
+
+@Single
+fun homeService(retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)

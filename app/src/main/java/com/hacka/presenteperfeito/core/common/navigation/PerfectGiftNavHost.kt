@@ -5,7 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.hacka.presenteperfeito.feature.home.screen.HomeScreen
+import com.hacka.presenteperfeito.feature.home.presentation.screen.HomeScreen
+import com.hacka.presenteperfeito.feature.inspection.presentation.InspectionScreen
 import com.hacka.presenteperfeito.feature.signin.presentation.login.screen.LoginScreen
 import com.hacka.presenteperfeito.feature.signup.presentation.SignUpScreen
 import kotlinx.serialization.Serializable
@@ -44,12 +45,11 @@ fun PerfectGiftNavHost(navController: NavHostController, needLogin: Boolean) {
 
         composable<Route.SignInRoute> {
             LoginScreen(
-                navController = navController,
                 navigateToSignUp = {
                     navController.navigate(Route.SignUpRoute)
                 },
                 navigateToHome = {
-                    navController.navigate(Route.HomeRoute)
+                    navController.navigate(Route.BottomNavigationRoute)
                 },
             )
         }
@@ -71,7 +71,6 @@ fun PerfectGiftNavHost(navController: NavHostController, needLogin: Boolean) {
                 HomeScreen(
                     navController = navController,
                     userName = "",
-                    userHistoryList = emptyList(),
                     navigateToProfile = {
 
                     },

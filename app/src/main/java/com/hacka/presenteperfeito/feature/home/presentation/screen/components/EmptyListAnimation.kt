@@ -1,4 +1,4 @@
-package com.hacka.presenteperfeito.feature.home.screen.components
+package com.hacka.presenteperfeito.feature.home.presentation.screen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

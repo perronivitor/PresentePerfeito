@@ -5,7 +5,9 @@ import com.hacka.presenteperfeito.core.auth.data.repository.AuthRepository
 import com.hacka.presenteperfeito.core.common.localData.dataStore.repository.LocalPreferencesRepository
 import com.hacka.presenteperfeito.core.network.interceptor.SessionAuthenticator
 import com.hacka.presenteperfeito.core.network.interceptor.SessionInterceptor
+import com.hacka.presenteperfeito.feature.home.presentation.screen.components.ProgressStatusEnumAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.addAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +29,7 @@ fun okhttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        builder.addInterceptor(loggingInterceptor)
+        builder.addNetworkInterceptor(loggingInterceptor)
     }
     return builder.connectTimeout(TIMEOUT, TimeUnit.SECONDS).readTimeout(TIMEOUT, TimeUnit.SECONDS)
         .writeTimeout(TIMEOUT, TimeUnit.SECONDS).build()
@@ -42,7 +44,7 @@ fun authenticatedOkHttpClient(
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        builder.addInterceptor(loggingInterceptor)
+        builder.addNetworkInterceptor(loggingInterceptor)
     }
     return builder.connectTimeout(TIMEOUT, TimeUnit.SECONDS).readTimeout(TIMEOUT, TimeUnit.SECONDS)
         .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
@@ -51,7 +53,8 @@ fun authenticatedOkHttpClient(
 }
 
 @Single
-fun moshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+fun moshi(): Moshi =
+    Moshi.Builder().add(KotlinJsonAdapterFactory()).add(ProgressStatusEnumAdapter()).build()
 
 @Single
 @Named(ANONYMOUS_RETROFIT)
