@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.hacka.presenteperfeito.core.designSystem.PerfectGiftTheme
 import com.hacka.presenteperfeito.feature.signin.presentation.login.screen.LoginScreen
 
@@ -27,8 +28,8 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                             .imePadding()
                             .fillMaxSize()
-                    ){
-                        LoginScreen()
+                    ) {
+                        LoginScreen(navController = rememberNavController())
                     }
                 }
             }
